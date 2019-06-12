@@ -13,15 +13,22 @@ class AddContactContainer extends Component {
 
       this.state = {
       ...this.state,
-      contact: {firstName: '', lastName: '', email: '', phone: ''}
+          contact: {firstName: '', lastName: '', email: '', phone: ''},
+          validated: false
     };
     }
 
-    handleSubmit() {
-        //e.preventDefault();
-        // Call add action with contact object
+    handleSubmit(event) {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    else {
         this.props.addContact(this.state.contact);
     }
+    this.setState({ validated: true });
+  }
 
     handleValueChange(fieldName, value) {
         this.setState( prevState => ({ contact : 
@@ -31,26 +38,29 @@ class AddContactContainer extends Component {
    }
 
     render() {
+      const { validated } = this.state;
       return (
           <Container>
-            <Form>
+            <h1>Add contact</h1>
+            <p>* all fields are required</p>
+            <Form noValidate validated={validated} onSubmit={e => this.handleSubmit(e)}>
               <Form.Group controlId="formFirstName">
                 <Form.Label>First Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter first name" onChange={e => this.handleValueChange('firstName',e.target.value)}/>
+                <Form.Control required type="text" placeholder="Enter first name" onChange={e => this.handleValueChange('firstName',e.target.value)}/>
               </Form.Group>
               <Form.Group controlId="formLastName">
                 <Form.Label>Last Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter last name" onChange={e => this.handleValueChange('lastName',e.target.value)}/>
+                <Form.Control required type="text" placeholder="Enter last name" onChange={e => this.handleValueChange('lastName',e.target.value)}/>
               </Form.Group>
               <Form.Group controlId="formEmail">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" onChange={e => this.handleValueChange('email',e.target.value)}/>
+                <Form.Control required type="email" placeholder="Enter email" onChange={e => this.handleValueChange('email',e.target.value)}/>
               </Form.Group>
               <Form.Group controlId="formPhone">
                 <Form.Label>Phone number</Form.Label>
-                <Form.Control type="text" placeholder="Enter phone numbner" onChange={e => this.handleValueChange('phone',e.target.value)}/>
+                <Form.Control required type="text" placeholder="Enter phone numbner" onChange={e => this.handleValueChange('phone',e.target.value)}/>
               </Form.Group>
-              <Button variant="primary" onClick={this.handleSubmit}>
+              <Button variant="primary" type="submit">
                 Submit
               </Button>
             </Form>
