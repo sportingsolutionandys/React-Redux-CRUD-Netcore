@@ -1,6 +1,8 @@
 ﻿
 export const requestContactsType = 'REQUEST_CONTACTS';
 export const receiveContactsType = 'RECEIVE_CONTACTS';
+export const requestAddContactsType = 'REQUEST_ADD_CONTACT';
+export const addContactSuccessType = 'SUCCESS_ADD_CONTACT';
 
 
 export const contactActions = {
@@ -13,7 +15,7 @@ export const contactActions = {
         dispatch({ type: receiveContactsType, contacts });
     },
     addContact : (contact) => async (dispatch, getState) => {
-
+        dispatch({ type: requestContactsType});
         let data = JSON.stringify(contact);
         const response = await fetch('api/Contact', {
             method: 'POST',
@@ -23,6 +25,6 @@ export const contactActions = {
             },
             body: data
             });
-        //const content = await response.json();
+        dispatch({ type: addContactSuccessType});
   }
 };

@@ -19,16 +19,16 @@ class AddContactContainer extends Component {
     }
 
     handleSubmit(event) {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        else {
+            this.props.addContact(this.state.contact);
+        }
+        this.setState({ validated: true });
     }
-    else {
-        this.props.addContact(this.state.contact);
-    }
-    this.setState({ validated: true });
-  }
 
     handleValueChange(fieldName, value) {
         this.setState( prevState => ({ contact : 
@@ -58,7 +58,7 @@ class AddContactContainer extends Component {
               </Form.Group>
               <Form.Group controlId="formPhone">
                 <Form.Label>Phone number</Form.Label>
-                <Form.Control required type="text" placeholder="Enter phone numbner" onChange={e => this.handleValueChange('phone',e.target.value)}/>
+                <Form.Control required type="text" placeholder="Enter phone number" onChange={e => this.handleValueChange('phone',e.target.value)}/>
               </Form.Group>
               <Button variant="primary" type="submit">
                 Submit
